@@ -1,0 +1,16 @@
+{
+  "name": "bloccit",
+  "version": "1.0.0",
+  "description": "A Reddit-like application for users to discuss and share content",
+  "main": "\u001b[D\u001b[D\u001b[D\u001bsrc.server.js)\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[/\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+  "scripts": {
+    "test": "export NODE_ENV=test&& jasmine"
+  },
+  "keywords": [
+    "bloc",
+    "bloccit",
+    "node"
+  ],
+  "author": "jenn",
+  "license": "ISC"
+}
