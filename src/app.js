@@ -4,7 +4,7 @@ const app = express(); //init app
 const appConfig = require("./config/main-config.js");
 const routeConfig = require("./config/route-config.js");
 
-appConfig.init();
-routeConfig.init(app, express);
+appConfig.init(app, express);
+routeConfig.init(app);
 
 module.exports = app; //export app so we can pass it to Node server in server.js
