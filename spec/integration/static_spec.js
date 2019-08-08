@@ -1,6 +1,7 @@
 const request = require("request"); //import request module
 const server = require("../../src/server"); //define server & base url
 const base = "http://localhost:3000/";
+const aboutPage = "http://localhost:3000/about";
 
 describe("routes : static", () => {
   //scoping all test suites here
@@ -18,7 +19,7 @@ describe("routes : static", () => {
 
   describe("GET /about", () => {
     it("should return status code 200 and have 'About Us' in the body of the page", done => {
-      request.get(base, (err, res, body) => {
+      request.get(aboutPage, (err, res, body) => {
         expect(res.statusCode).toBe(200);
         expect(body).toContain("About Us");
         done();
