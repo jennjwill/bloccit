@@ -45,6 +45,17 @@ describe("routes : topics", () => {
     });
   });
 
+  describe("GET /topics/:id", () => {
+    // the : indicates that id is a URL parameter, id passed within the request--the id of the topic we created in the beforeEach call
+    it("should render a view with the selected topic", done => {
+      request.get(`${base}${this.topic.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("JS Frameworks");
+        done();
+      });
+    });
+  });
+
   describe("POST /topics/create", () => {
     const options = {
       url: `${base}create`,
@@ -69,6 +80,36 @@ describe("routes : topics", () => {
             console.log(err);
             done();
           });
+      });
+    });
+  });
+
+  describe("POST /topics/:id/destroy", () => {
+    it("should delete the topic with the associated ID", done => {
+      Topic.all().then(topics => {
+        //all is a sequelize method that returns all records in the table
+        const topicCountBeforeDelete = topics.length;
+
+        expect(topicCountBeforeDelete).toBe(1);
+
+        request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
+          Topic.all().then(topics => {
+            expect(err).toBeNull();
+            expect(topics.length).toBe(topicCountBeforeDelete - 1);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe("GET /topics/:id/edit", () => {
+    it("should render a view with an edit topic form", done => {
+      request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Topic");
+        expect(body).toContain("JS Frameworks");
+        done();
       });
     });
   });

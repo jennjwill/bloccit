@@ -10,9 +10,11 @@ module.exports = {
       }
     });
   },
+
   new(req, res, next) {
     res.render("topics/new");
   },
+
   create(req, res, next) {
     let newTopic = {
       title: req.body.title,
@@ -23,6 +25,27 @@ module.exports = {
         res.redirect(500, "/topics/new");
       } else {
         res.redirect(303, `/topics/${topic.id}`);
+      }
+    });
+  },
+
+  destroy(req, res, next) {
+    topicQueries.deleteTopic(req.params.id, (err, topic) => {
+      if (err) {
+        res.redirect(500, `/topics/${topic.id}`);
+      } else {
+        res.redirect(303, "/topics");
+      }
+    });
+  },
+
+  show(req, res, next) {
+    topicQueries.getTopic(req.params.id, (err, topic) => {
+      //use params when info we need is in URL
+      if (err || topic == null) {
+        res.redirect(404, "/");
+      } else {
+        res.render("topics/show", { topic });
       }
     });
   }
