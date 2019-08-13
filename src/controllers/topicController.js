@@ -39,6 +39,16 @@ module.exports = {
     });
   },
 
+  edit(req, res, next) {
+    topicQueries.getTopic(req.params.id, (err, topic) => {
+      if (err || topic == null) {
+        res.redirect(404, "/");
+      } else {
+        res.render("topics/edit", { topic });
+      }
+    });
+  },
+
   show(req, res, next) {
     topicQueries.getTopic(req.params.id, (err, topic) => {
       //use params when info we need is in URL
@@ -46,6 +56,16 @@ module.exports = {
         res.redirect(404, "/");
       } else {
         res.render("topics/show", { topic });
+      }
+    });
+  },
+
+  update(req, res, next) {
+    topicQueries.updateTopic(req.params.id, req.body, (err, topic) => {
+      if (err || topic == null) {
+        res.redirect(404, `/topics/${req.params.id}/edit`);
+      } else {
+        res.redirect(`/topics/${topic.id}`);
       }
     });
   }
