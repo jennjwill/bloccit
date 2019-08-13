@@ -8,7 +8,7 @@ for (let i = 1; i <= 15; i++) {
   topics.push({
     title: faker.hacker.noun(),
     description: faker.hacker.phrase(),
-    createAt: new Date(),
+    createdAt: new Date(),
     updatedAt: new Date()
   });
 }
