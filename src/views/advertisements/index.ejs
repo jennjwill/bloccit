@@ -7,12 +7,10 @@
     <main class="container">
       <% include ../static/partials/navbar.ejs %>
 
-      <h1>Topics</h1>
+      <h1>Advertisements</h1>
 
       <ul class="list-group">
-        <!-- #1 -->
         <% advertisements.forEach((advertisement) => { %>
-        <!-- #2 -->
         <li class="list-group-item">
           <a href="/advertisements/<%= advertisement.id %>">
             <%= advertisement.title %>
