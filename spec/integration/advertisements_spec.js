@@ -99,4 +99,41 @@ describe("routes : advertisements", () => {
       });
     });
   });
+
+  describe("GET /advertisements/:id/edit", () => {
+    it("should render a view with an edit advertisement form"),
+      done => {
+        request.get(
+          `${base}${this.advertisement.id}/edit`,
+          (err, res, body) => {
+            expect(err).toBeNull();
+            expect(body).toContain("Edit Advertisement");
+            expect(body).toContain("JS Frameworks");
+            done();
+          }
+        );
+      };
+  });
+
+  describe("POST /advertisements/:id/update", () => {
+    it("should update the ad with the given values", done => {
+      const options = {
+        url: `${base}${this.advertisement.id}/update`,
+        form: {
+          title: "BlahBlah Frameworks",
+          description: "There are lots of them"
+        }
+      };
+
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        Advertisement.findOne({
+          where: { id: this.advertisement.id }
+        }).then(advertisement => {
+          expect(advertisement.title).toBe("BlahBlah Frameworks");
+          done();
+        });
+      });
+    });
+  });
 });
