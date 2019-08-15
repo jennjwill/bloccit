@@ -6,7 +6,7 @@ module.exports = {
       if (err) {
         res.redirect(500, "static/index");
       } else {
-        res.render("topics/index", { topics });
+        res.render("topics/index", { topics }); //in ejs we could have multiple stuff
       }
     });
   },
@@ -51,6 +51,7 @@ module.exports = {
 
   show(req, res, next) {
     topicQueries.getTopic(req.params.id, (err, topic) => {
+      //.id speaks to :id
       //use params when info we need is in URL
       if (err || topic == null) {
         res.redirect(404, "/");

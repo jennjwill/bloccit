@@ -1,6 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/advertisements/";
+const base = "http://localhost:3000/advertisements/"; //express finds this by file name so get file name right
 const sequelize = require("../../src/db/models/index").sequelize;
 const Advertisement = require("../../src/db/models").Advertisement;
 
