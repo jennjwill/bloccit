@@ -1,5 +1,5 @@
 const Topic = require("./models").Topic;
-const Post = require("./models").Topic;
+const Post = require("./models").Post;
 
 module.exports = {
   getAllTopics(callback) {
