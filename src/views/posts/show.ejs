@@ -15,6 +15,10 @@
         >Edit</a
       >
 
+      <a href="/posts/<%= post.id %>/flairs/new" class="btn btn-success"
+        >New Flair</a
+      >
+
       <form
         style="display:initial"
         action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy"
@@ -24,6 +28,22 @@
       </form>
 
       <p><%= post.body %></p>
+
+      <hr />
+
+      <h1>Flairs</h1>
+
+      <ul class="flair-group">
+        <% post.flairs.forEach(flair) => { %>
+        <li class="flair-group-item">
+          <a
+            href="/topics/<%= post.topicId %>/posts/<%= post.id %>/flairs/<%= flair.id %>"
+          >
+            <%= flair.name %></a
+          >
+        </li>
+        <% }) %>
+      </ul>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

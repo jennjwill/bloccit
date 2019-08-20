@@ -17,11 +17,10 @@ module.exports = (sequelize, DataTypes) => {
   Flair.associate = function(models) {
     // associations can be defined here
     Flair.belongsToMany(models.Post, {
-      through: {
-        model: Flair
-      },
+      through: "FlairTags",
+
       foreignKey: "postId",
-      onDelete: "CASCADE" //check n:m and tag table info on seqeulize to figure out associations etc 8/19jw
+      onDelete: "CASCADE"
     });
   };
   return Flair;

@@ -1,3 +1,7 @@
+const request = require("request");
+const server = require("../../src/server");
+const base = "http://localhost:3000/posts";
+
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
@@ -56,6 +60,16 @@ describe("routes : flairs", () => {
           console.log(err);
           done();
         });
+    });
+  });
+
+  describe("GET /posts/:postId/flairs/new", () => {
+    it("should render a new flair form", done => {
+      request.get(`${base}/${this.post.id}/flairs/new`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("New Flair");
+        done();
+      });
     });
   });
 });
