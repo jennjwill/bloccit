@@ -72,4 +72,43 @@ describe("routes : flairs", () => {
       });
     });
   });
+
+  describe("POST /posts/:postId/flairs/create", () => {
+    it("should create a new flair and redirect", done => {
+      const options = {
+        url: `${base}/${this.post.id}/flairs/create`,
+        form: {
+          name: "Animal posts",
+          color: "purple"
+        }
+      };
+      request.post(options, (err, res, body) => {
+        Flair.findOne({ where: { name: "Animal posts" } })
+          .then(flair => {
+            expect(flair).not.toBeNull();
+            expect(flair.name).toBe("Animal posts");
+            expect(flair.color).toBe("purple");
+            expect(flair.postId).not.toBeNull();
+            done();
+          })
+          .catch(err => {
+            console.log(err);
+            done();
+          });
+      });
+    });
+  });
+
+  describe("GET /posts/:postId/flairs/:id", () => {
+    it("should render a view with the selected flair", done => {
+      request.get(
+        `${base}/${this.post.id}/flairs/${this.flair.id}`,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Sci-Fi & Fantasy Books");
+          done();
+        }
+      );
+    });
+  });
 });

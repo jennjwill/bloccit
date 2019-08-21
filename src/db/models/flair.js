@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       color: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+
+      postId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       }
     },
     {}
