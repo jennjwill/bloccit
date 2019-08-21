@@ -47,9 +47,16 @@ describe("routes : flairs", () => {
 
   describe("#create()", () => {
     it("should create a flair object with a name and color", done => {
+      Post.create({
+        title: "Hey new title",
+        body: "new words for this new title",
+        topicId: this.topic.id
+      });
+
       Flair.create({
         name: "Test Flair",
-        color: "blue"
+        color: "blue",
+        postId: this.post.id
       })
         .then(flair => {
           expect(flair.name).toBe("Test Flair");
@@ -78,7 +85,7 @@ describe("routes : flairs", () => {
       const options = {
         url: `${base}/${this.post.id}/flairs/create`,
         form: {
-          name: "Animal posts",
+          name: "Animal Posts",
           color: "purple"
         }
       };
