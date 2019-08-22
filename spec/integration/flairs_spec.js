@@ -29,7 +29,7 @@ describe("routes : flairs", () => {
             this.post = post;
 
             Flair.create({
-              name: "Sci-Fi & Fantasy Books",
+              name: "SFF Books",
               color: "green",
               postId: this.post.id
             }).then(flair => {
@@ -90,10 +90,10 @@ describe("routes : flairs", () => {
         }
       };
       request.post(options, (err, res, body) => {
-        Flair.findOne({ where: { name: "Animal posts" } })
+        Flair.findOne({ where: { name: "Animal Posts" } })
           .then(flair => {
             expect(flair).not.toBeNull();
-            expect(flair.name).toBe("Animal posts");
+            expect(flair.name).toBe("Animal Posts");
             expect(flair.color).toBe("purple");
             expect(flair.postId).not.toBeNull();
             done();
@@ -112,7 +112,7 @@ describe("routes : flairs", () => {
         `${base}/${this.post.id}/flairs/${this.flair.id}`,
         (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("Sci-Fi & Fantasy Books");
+          expect(body).toContain("SFF Books");
           done();
         }
       );
