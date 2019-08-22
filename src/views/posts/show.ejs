@@ -15,7 +15,9 @@
         >Edit</a
       >
 
-      <a href="/posts/<%= post.id %>/flairs/new" class="btn btn-success"
+      <a
+        href="/topics/<%= post.topicId %>/posts/<%= post.id %>/flairs/new"
+        class="btn btn-success"
         >New Flair</a
       >
 
@@ -38,9 +40,7 @@
         <li class="flair-group-item">
           <a
             href="/topics/<%= post.topicId %>/posts/<%= post.id %>/flairs/<%= flair.id %>"
-          >
-            <%= flair.name %></a
-          >
+          ></a>
         </li>
         <% }) %>
       </ul>

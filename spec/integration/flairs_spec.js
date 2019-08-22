@@ -118,4 +118,71 @@ describe("routes : flairs", () => {
       );
     });
   });
+
+  describe("POST /posts/:postId/flairs/:id/destroy", () => {
+    it("should delete the flair with the associated ID", done => {
+      expect(this.flair.id).toBe(1);
+      request.post(
+        `${base}/${this.post.id}/flairs/${this.flair.id}/destroy`,
+        (err, res, body) => {
+          Flair.findById(1).then(flair => {
+            expect(err).toBeNull();
+            expect(flair).toBeNull();
+            done();
+          });
+        }
+      );
+    });
+  });
+
+  describe("GET /posts/:postId/flairs/:id/edit", () => {
+    it("should render a view with an edit flair form", done => {
+      request.get(
+        `${base}/${this.post.id}/flairs/${this.flair.id}/edit`,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Edit Flair");
+          expect(body).toContain("SFF Books");
+          done();
+        }
+      );
+    });
+  });
+
+  describe("POST /posts/:postId/flairs/:id/update", () => {
+    it("should return a status code 302", done => {
+      request.post(
+        {
+          url: `${base}/${this.post.id}/flairs/${this.flair.id}/update`,
+          form: {
+            name: "Best TV",
+            color: "orange"
+          }
+        },
+        (err, res, body) => {
+          expect(res.statusCode).toBe(302);
+          done();
+        }
+      );
+    });
+
+    it("should update the flair with the given values", done => {
+      const options = {
+        url: `${base}/${this.post.id}/flairs/${this.flair.id}/update`,
+        form: {
+          name: "Best Music",
+          color: "black"
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        Flair.findOne({
+          where: { id: this.flair.id }
+        }).then(flair => {
+          expect(flair.name).toBe("Best Music");
+          done();
+        });
+      });
+    });
+  });
 });
