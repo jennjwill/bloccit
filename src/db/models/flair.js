@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     Flair.belongsToMany(models.Post, {
       through: "FlairTags",
 
-      foreignKey: "postId",
-      onDelete: "CASCADE"
+      foreignKey: "postId"
     });
   };
   return Flair;

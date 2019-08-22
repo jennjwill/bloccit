@@ -36,11 +36,11 @@
       <h1>Flairs</h1>
 
       <ul class="flair-group">
-        <% post.flairs.forEach(flair) => { %>
+        <% post.flairs.forEach((flair) => { %>
         <li class="flair-group-item">
-          <a
-            href="/topics/<%= post.topicId %>/posts/<%= post.id %>/flairs/<%= flair.id %>"
-          ></a>
+          <a href="/posts/<%= post.id %>/flairs/<%= flair.id %>">
+            <%= flair.name %>
+          </a>
         </li>
         <% }) %>
       </ul>
