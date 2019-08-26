@@ -7,7 +7,11 @@ router.get("/topics", topicController.index);
 
 router.get("/topics/new", topicController.new);
 
-router.post("/topics/create", validation.validatePosts, topicController.create);
+router.post(
+  "/topics/create",
+  validation.validateTopics,
+  topicController.create
+);
 
 router.get("/topics/:id", topicController.show);
 
@@ -17,7 +21,7 @@ router.get("/topics/:id/edit", topicController.edit);
 
 router.post(
   "/topics/:id/update",
-  validation.validatePosts,
+  validation.validateTopics,
   topicController.update
 );
 
