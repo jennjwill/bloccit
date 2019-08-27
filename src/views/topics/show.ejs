@@ -11,9 +11,11 @@
 
       <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
 
+      <% if(currentUser) { %>
       <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success"
         >New Post</a
       >
+      <% } %>
 
       <form
         style="display:initial"
