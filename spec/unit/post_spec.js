@@ -44,6 +44,31 @@ describe("Post", () => {
     });
   });
 
+  describe("#setUser()", () => {
+    it("should associate a post and a user together", done => {
+      User.create({
+        email: "ada@example.com",
+        password: "password"
+      }).then(newUser => {
+        expect(this.post.userId).toBe(this.user.id);
+
+        this.post.setUser(newUser).then(post => {
+          expect(this.post.userId).toBe(newUser.id);
+          done();
+        });
+      });
+    });
+  });
+
+  describe("#getUser()", () => {
+    it("should return the associated topic", done => {
+      this.post.getUser().then(associatedUser => {
+        expect(associatedUser.email).toBe("starman@tesla.com");
+        done();
+      });
+    });
+  });
+
   describe("#create()", () => {
     it("should create a post object with a title, body, and assigned topic and user", done => {
       Post.create({
@@ -97,31 +122,6 @@ describe("Post", () => {
     it("should return the associated topic", done => {
       this.post.getTopic().then(associatedTopic => {
         expect(associatedTopic.title).toBe("Expeditions to Alpha Centauri");
-        done();
-      });
-    });
-  });
-
-  describe("#setUser()", () => {
-    it("should associate a post and a user together", done => {
-      User.create({
-        email: "ada@example.com",
-        password: "password"
-      }).then(newUser => {
-        expect(this.post.userId).toBe(this.user.id);
-
-        this.post.setUser(newUser).then(post => {
-          expect(this.post.userId).toBe(newUser.id);
-          done();
-        });
-      });
-    });
-  });
-
-  describe("#getUser()", () => {
-    it("should return the associated topic", done => {
-      this.post.getUser().then(associatedUser => {
-        expect(associatedUser.email).toBe("starman@tesla.com");
         done();
       });
     });
