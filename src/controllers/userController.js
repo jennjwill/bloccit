@@ -31,11 +31,14 @@ module.exports = {
   },
 
   signIn(req, res, next) {
+    console.log(req.user);
     passport.authenticate("local")(req, res, function() {
       if (!req.user) {
+        console.log("inside passport in sign in 1st if statement");
         req.flash("notice", "Sign in failed. Please try again.");
         res.redirect("/users/sign_in");
       } else {
+        console.log("inside else statement");
         req.flash("notice", "You've successfully signed in!");
         res.redirect("/");
       }

@@ -24,6 +24,7 @@ module.exports = {
   },
 
   validateUsers(req, res, next) {
+    console.log(req.user);
     if (req.method === "POST") {
       req.checkBody("email", "must be valid").isEmail();
       req
