@@ -2,11 +2,11 @@ const ApplicationPolicy = require("./application");
 
 module.exports = class PostPolicy extends ApplicationPolicy {
   /*new() {
-    return this.new();
-  }
+    return this._isAdmin();
+  } 
 
   create() {
-    return this.create();
+    return this.new();
   } */
 
   edit() {

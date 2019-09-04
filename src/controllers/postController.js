@@ -6,7 +6,7 @@ module.exports = {
     const authorized = new Authorizer(req.user).new();
 
     if (authorized) {
-      res.render("posts/new");
+      res.render("posts/new", { topicId: req.params.topicId });
     } else {
       req.flash("notice", "You are not authorized to do that.");
       res.redirect("/posts");
@@ -70,7 +70,7 @@ module.exports = {
           res.render("posts/edit", { post });
         } else {
           req.flash("You are not authorized to do that.");
-          res.redirect(`/posts/${req.params.id}`);
+          res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
         }
       }
     });
