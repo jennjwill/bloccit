@@ -322,6 +322,8 @@ describe("routes : posts", () => {
 
     describe("GET /topics/:topicId/posts/new", () => {
       it("should render a view with a new post form b/c members can create new posts", done => {
+        console.log("value of this:" + this);
+
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("New Post");
