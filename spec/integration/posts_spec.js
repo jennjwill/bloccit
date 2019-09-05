@@ -314,7 +314,8 @@ describe("routes : posts", () => {
       request.get({
         url: "http://localhost:3000/auth/fake",
         form: {
-          role: "member"
+          role: "member",
+          userId: this.user.id
         }
       }),
         done();
