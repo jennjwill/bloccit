@@ -334,15 +334,16 @@ describe("routes : posts", () => {
     });
 
     describe("POST /topics/:topicId/posts/create", () => {
-      const options = {
-        url: `${base}${this.topic.id}/posts/create`,
-        form: {
-          title: "Watching snow melt",
-          body:
-            "Without a doubt my favoriting things to do besides watching paint dry!"
-        }
-      };
       it("should not create a new post", done => {
+        const options = {
+          url: `${base}${this.topic.id}/posts/create`,
+          form: {
+            title: "Watching snow melt",
+            body:
+              "Without a doubt my favoriting things to do besides watching paint dry!"
+          }
+        };
+
         request.post(options, (err, res, body) => {
           Post.findOne({ where: { title: "Watching snow melt" } })
             .then(post => {
