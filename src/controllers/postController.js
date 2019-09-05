@@ -3,7 +3,7 @@ const Authorizer = require("../policies/post");
 
 module.exports = {
   new(req, res, next) {
-    const authorized = new Authorizer(req.user).new();
+    const authorized = new Authorizer(req.user).newPost(); //from policy post
 
     if (authorized) {
       res.render(`posts/new`, { topicId: req.params.topicId });
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   create(req, res, next) {
-    const authorized = new Authorizer(req.user).create();
+    const authorized = new Authorizer(req.user).create(); //new Auth class, passes arg(req.user) in, calls create method on THAT object---checking if that person is allowed to create in this case
 
     if (authorized) {
       let newPost = {
