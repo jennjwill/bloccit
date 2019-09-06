@@ -1,7 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics/"; //comments belong to posts which belong to topics
-
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
@@ -135,9 +134,8 @@ describe("routes : comments", () => {
   //guest user context end
   //member user context start
 
-  describe("signed in user performing CRUD actions for Comment", () => {
+  describe("signed in member user performing CRUD actions for Comment", () => {
     beforeEach(done => {
-      // before each suite in this context
       request.get(
         {
           url: "http://localhost:3000/auth/fake",
@@ -197,7 +195,90 @@ describe("routes : comments", () => {
         });
       });
     });
+
+    describe("POST /topics/:topicId/post/:postId/comments/:id/destroy", () => {
+      beforeEach(done => {
+        request.get(
+          {
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              role: "member",
+              userId: 3
+            }
+          },
+          (err, res, body) => {
+            done();
+          }
+        );
+      });
+      it("should not delete the comment of another member user", done => {
+        Comment.all().then(comments => {
+          const commentCountBeforeDelete = comments.length;
+          expect(commentCountBeforeDelete).toBe(1);
+          request.post(
+            `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+            (err, res, body) => {
+              expect(res.statusCode).toBe(401);
+              Comment.all().then(comments => {
+                expect(err).toBeNull();
+                expect(comments.length).toBe(commentCountBeforeDelete);
+                done();
+              });
+            }
+          );
+        });
+      });
+    });
   });
 
   //end context for signed in user
+  //start context for admin user
+
+  describe("admin user performing CRUD actions for Comments", () => {
+    beforeEach(done => {
+      User.create({
+        email: "admin@example.com",
+        password: "123456",
+        role: "admin"
+      }).then(user => {
+        request.get(
+          {
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              role: user.role,
+              userId: user.id,
+              email: user.email
+            }
+          },
+          (err, res, body) => {
+            done();
+          }
+        );
+      });
+    });
+
+    describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+      it("should delete the comment with the associated ID", done => {
+        Comment.all().then(comments => {
+          const commentCountBeforeDelete = comments.length;
+
+          expect(commentCountBeforeDelete).toBe(1);
+
+          request.post(
+            `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+            (err, res, body) => {
+              expect(res.statusCode).toBe(302);
+              Comment.all().then(comments => {
+                expect(err).toBeNull();
+                expect(comments.length).toBe(commentCountBeforeDelete - 1);
+                done();
+              });
+            }
+          );
+        });
+      });
+    });
+  });
+
+  //end context for admin user
 });
