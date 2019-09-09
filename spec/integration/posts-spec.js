@@ -62,7 +62,7 @@ describe("routes : posts", () => {
       it("should not render a new post form", done => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("Error");
+          expect(body).not.toContain("Post Body");
           done();
         });
       });
