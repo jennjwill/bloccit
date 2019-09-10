@@ -283,24 +283,25 @@ describe("Vote", () => {
     });
   });
 
-  describe("#getPoints()", () => {
-    it("should return the total number of votes associated with a post", done => {
-      Vote.create({
-        value: 1,
-        userId: this.user.id,
-        postId: this.post.id
-      })
-        .then(vote => {
-          let points = this.post.getPoints();
-          expect(points).toBe(5);
-          done();
-        })
-        .catch(err => {
-          console.log(err);
-          done();
-        });
-    });
-  });
+  //moved to unit/post_spec.js b/c would not fail here, but keeping for now JIC
+  // describe("#getPoints()", () => {
+  //   it("should return the total number of votes associated with a post", done => {
+  //     Vote.create({
+  //       value: 1,
+  //       userId: this.user.id,
+  //       postId: this.post.id
+  //     })
+  //       .then(vote => {
+  //         let points = this.post.getPoints();
+  //         expect(points).toBe(5);
+  //         done();
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe("#hasUpvoteFor()", () => {
     it("should return true if the user has upvoted for a post", done => {
@@ -310,10 +311,10 @@ describe("Vote", () => {
         postId: this.post.id
       })
         .then(vote => {
-          vote.postId.hasUpvoteFor().then(associatedPost => {
-            expect(this.votes).toBe(false);
-            done();
-          });
+          this.post.votes = [vote];
+          const hasUpvote = this.post.hasUpvoteFor(vote.userId);
+          expect(hasUpvote).toBe(true);
+          done();
         })
         .catch(err => {
           console.log(err);
@@ -330,8 +331,9 @@ describe("Vote", () => {
         postId: this.post.id
       })
         .then(vote => {
-          let voteDown = this.post.hasDownvoteFor();
-          expect(voteDown).toBe(true);
+          this.post.votes = [vote];
+          const hasDownvote = this.post.hasDownvoteFor(vote.userId);
+          expect(hasDownvote).toBe(true);
           done();
         })
         .catch(err => {

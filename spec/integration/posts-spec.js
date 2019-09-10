@@ -70,6 +70,7 @@ describe("routes : posts", () => {
       });
     });
 
+    //commented out b/c I hadn't merged this assigment work, copied it but a weird test error persists where it hadn't before (tech coach agreed I should just comment out and move on)
     // describe("POST /topics/:topicId/posts/create", () => {
     //   it("should not create a new post", done => {
     //     const options = {
