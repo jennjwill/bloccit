@@ -103,7 +103,24 @@ describe("Vote", () => {
         });
     });
 
-    // #6
+    //testing for numbers other than 1 or -1
+    it("should not create a vote with a value other than 1 or -1", done => {
+      Vote.create({
+        value: -5,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          //I think the test will skip this block?
+          expect(vote.value).toBeNull();
+          done();
+        })
+        .catch(err => {
+          expect(err.message).toContain("Validation isIn on value failed");
+          done();
+        });
+    });
+
     it("should not create a vote without assigned post or user", done => {
       Vote.create({
         value: 1
@@ -118,6 +135,40 @@ describe("Vote", () => {
         .catch(err => {
           expect(err.message).toContain("Vote.userId cannot be null");
           expect(err.message).toContain("Vote.postId cannot be null");
+          done();
+        });
+    });
+
+    it("should not create more than one vote per user", done => {
+      Vote.create({
+        value: 1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          expect(vote.value).toBe(1);
+          expect(vote.postId).toBe(this.post.id);
+          expect(vote.userId).toBe(this.user.id);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+      Vote.create({
+        //is this really testing the total votes or just this 1 vote block?
+        value: 1,
+        postId: this.post.id,
+        userId: this.user.id
+      })
+        .then(vote => {
+          expect(vote.value).toBe(1); //from this block or whole it scope?
+          expect(vote.postId).toBe(this.post.id);
+          expect(vote.userId).toBe(this.user.id);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
           done();
         });
     });
@@ -224,6 +275,64 @@ describe("Vote", () => {
             );
             done();
           });
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
+
+  describe("#getPoints()", () => {
+    it("should return the total number of votes associated with a post", done => {
+      Vote.create({
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+        .then(vote => {
+          let points = this.post.getPoints();
+          expect(points).toBe(5);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
+
+  describe("#hasUpvoteFor()", () => {
+    it("should return true if the user has upvoted for a post", done => {
+      Vote.create({
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+        .then(vote => {
+          vote.postId.hasUpvoteFor().then(associatedPost => {
+            expect(this.votes).toBe(false);
+            done();
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
+
+  describe("hasDownvoteFor()", () => {
+    it("should return true if the user has downvoted for a post", done => {
+      Vote.create({
+        value: -1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+        .then(vote => {
+          let voteDown = this.post.hasDownvoteFor();
+          expect(voteDown).toBe(true);
+          done();
         })
         .catch(err => {
           console.log(err);
