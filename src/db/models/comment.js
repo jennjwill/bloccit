@@ -30,6 +30,21 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
       onDelete: "CASCADE"
     });
+
+    Comment.addScope("lastFiveFor", userId => {
+      // includes the post for each comment so we can build an anchor tag
+      return {
+        include: [
+          {
+            model: models.Post
+          }
+        ],
+        where: { userId: userId },
+
+        limit: 5,
+        order: [["createdAt", "DESC"]]
+      };
+    });
   };
 
   return Comment;

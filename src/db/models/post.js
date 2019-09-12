@@ -79,5 +79,15 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Post.addScope("lastFiveFor", userId => {
+    // returns query
+    return {
+      where: { userId: userId },
+      // order tells sequelize what attribute to sort & in which direction
+      limit: 5,
+      order: [["createdAt", "DESC"]]
+    };
+  });
+
   return Post;
 };
